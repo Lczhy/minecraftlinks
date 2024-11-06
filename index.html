@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Minecraft 实用网站导航</title>
+    <style>
+        /* 基础样式 */
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #f5f6fa;
+            line-height: 1.6;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        /* 标题样式 */
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, #607d8b, #78909c);
+            border-radius: 3px;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #607d8b;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        h3 {
+            color: #2c3e50;
+            margin: 20px 0 15px 0;
+            font-size: 1.2em;
+        }
+
+        /* 链接网格布局 */
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        /* 链接项样式 */
+        .link-item {
+            position: relative;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            background: linear-gradient(135deg, #78909c, #546e7a);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .link-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #546e7a, #37474f);
+        }
+
+        .link-item a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        /* 分区样式 */
+        .link-section {
+            margin-bottom: 35px;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        .link-section:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transform: translateY(-2px);
+        }
+
+        /* Tooltip样式 */
+        .tooltip {
+            visibility: hidden;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            position: absolute;
+            z-index: 1;
+            width: 220px;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -110px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            line-height: 1.4;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
+        }
+
+        .link-item:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(-5px);
+        }
+
+        /* 脚样式 */
+        .footer {
+            margin-top: 40px;
+            padding: 20px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 14px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 0 0 15px 15px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            .link-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 10px;
+            }
+            
+            .tooltip {
+                width: 180px;
+                margin-left: -90px;
+            }
+        }
+
+        /* 添加section-title的样式 */
+        .section-title {
+            position: relative;
+            display: inline-block;
+            color: #34495e;
+            margin: 15px 0 10px 0;
+            cursor: help;  /* 添加提示光标 */
+        }
+
+        /* 修改section-title的tooltip样式 */
+        .section-title .tooltip {
+            visibility: hidden;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            position: absolute;
+            z-index: 1;
+            width: 220px;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -110px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            line-height: 1.4;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .section-title:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(-5px);
+        }
+
+        .section-title .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
+        }
+
+        /* 添加图标样式 */
+        .social-icon {
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.2);
+        }
+
+        .footer a {
+            color: #7f8c8d;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #546e7a;
+        }
+
+        /* 添加弹出层样式 */
+        .qr-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .qr-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .qr-content img {
+            max-width: 300px;
+            height: auto;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Minecraft 实用网站导航</h1>
+        <p style="text-align: center; color: #7f8c8d; font-size: 14px; margin-bottom: 20px;">
+            该网站将持续更新   如有分类失误或其他失误和建议欢迎及时联系
+        </p>
+
+        <div class="link-section">
+            <h2>官方网站</h2>
+            <div class="link-grid">
+                <div class="link-item">
+                    <a href="https://www.minecraft.net" target="_blank">Minecraft 官网</a>
+                    <span class="tooltip">Minecraft官方网站，提供游戏下载、账号管理、新闻资讯等官方服务</span>
+                </div>
+                <div class="link-item">
+                    <a href="https://account.xbox.com" target="_blank">Xbox账户管理</a>
+                    <span class="tooltip">管理你的Xbox/Microsoft账户，处理Minecraft正版账号相关事务</span>
+                </div>
+                <div class="link-item">
+                    <a href="https://minecraft.wiki" target="_blank">Minecraft Wiki</a>
+                    <span class="tooltip">Minecraft官方维基百科，提供游戏内容的详细资料和教程，包括方块、物品、生物等全面信息</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="link-section">
+            <h2>游戏资源</h2>
+            
+            <!-- Java安装模块 - 添加在启动器下载模块之前 -->
+            <h3 class="section-title">Java安装
+                <span class="tooltip">不同版本的Minecraft需要不同版本的Java</span>
+            </h3>
+            <div class="link-grid">
+                <div class="link-item">
+                    <a href="https://www.java.com/zh-CN/" target="_blank">Java 8</a>
+                    <span class="tooltip">Java 8适用于1.16及以下版本，推荐下载64位版本</span>
+                </div>
+                <div class="link-item">
+                    <a href="https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html" target="_blank">Java 17</a>
+                    <span class="tooltip">Java 17适用于1.17及以上版本，需要Oracle账号</span>
+                </div>
+                <div class="link-item">
+                    <a href="https://adoptium.net/zh-CN/" target="_blank">Eclipse Temurin</a>
+                    <span class="tooltip">免费开源的Java发版提供多个版本下载，无需注册</span>
+                </div>
+            </div>
+
+            <!-- 启动器下载模块 -->
+            <h3 class="section-title">启动器下载
+                <span class="tooltip">官方启动器请去Minecraft官网</span>
+            </h3>
+            <div class="link-grid">
+                <div class="link-item">
+                    <a href="pcl2.html">PCL2</a>
+                    <span class="tooltip">一款清爽、简洁的Minecraft启动器，支持版本管理、Mod管理、整合包制作等功能</span>
+                </div>
+                <div class="link-item">
+                    <a href="hmcl.html">HMCL</a>
+                    <span class="tooltip">一款老牌启动器，功能全面，支持联机，适合进阶玩家使用</span>
+                </div>
+                <div class="link-item">
+                    <a href="lunar.html">Lunar Client</a>
+                    <span class="tooltip">专注于PvP的户端，提供优秀的性能优化和大量内置模组，适合竞技玩家</span>
+                </div>
+                <div class="link-item">
+                    <a href="badlion.html">Badlion Client</a>
+                    <span class="tooltip">功能丰富的PvP客户端，内反作弊系统，提供大量优化和实用模组</span>
+                </div>
+                <div class="link-item">
+                    <a href="labymod.html">LabyMod</a>
+                    <span class="tooltip">多功能客户端，提供丰富的社交功能和游戏增强，支持添加小型模组</span>
+                </div>
+            </div>
+
+            <!-- MOD下载模块 -->
+            <h3 style="color: #34495e; margin: 15px 0 10px 0;">MOD下载</h3>
+            <div class="link-grid">
+                <div class="link-item">
+                    <a href="curseforge.html">CurseForge</a>
+                    <span class="tooltip">全球最大的Minecraft模组平台，提供海量模组、资源包、整合包等资源</span>
+                </div>
+                <div class="link-item">
+                    <a href="mcmod.html">MC百科</a>
+                    <span class="tooltip">中国最大的Minecraft百科和资源网站，提供模组介绍、教程和汉化资源</span>
+                </div>
+                <div class="link-item">
+                    <a href="modrinth.html">Modrinth</a>
+                    <span class="tooltip">新兴的开源模组平台，注重性能优化，审核严格，模组质量较高</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="link-section">
+            <h2>工具网站</h2>
+            
+            <!-- 皮肤模块 -->
+            <h3 style="color: #34495e; margin: 15px 0 10px 0;">皮肤工具</h3>
+            <div class="link-grid">
+                <div class="link-item">
+                    <a href="skinstealer.html">皮肤获取器</a>
+                    <span class="tooltip">快速获取任意玩家的皮肤文件，支持多种格式导出，操作简单方便</span>
+                </div>
+                <div class="link-item">
+                    <a href="namemc.html">NameMC</a>
+                    <span class="tooltip">综合性玩家信息查询网站，可查看玩家名称历史、皮肤历史、服务器信息等</span>
+                </div>
+            </div>
+
+            <!-- 视频模块 -->
+            <h3 style="color: #34495e; margin: 15px 0 10px 0;">视频工具</h3>
+            <div class="link-grid">
+                <div class="link-item">
+                    <a href="9minecraft.html">9Minecraft</a>
+                    <span class="tooltip">提供丰富的Minecraft视频教程、游戏攻略和最新资讯，内容覆盖面广</span>
+                </div>
+            </div>
+
+            <!-- 辅助工具 -->
+            <h3 style="color: #34495e; margin: 15px 0 10px 0;">辅助工具</h3>
+            <div class="link-grid">
+                <div class="link-item">
+                    <a href="chunkbase.html">ChunkBase</a>
+                    <span class="tooltip">强大的区块分析工具，可以查找生物群系、结构、矿物等位置，支持多版本</span>
+                </div>
+                <div class="link-item">
+                    <a href="mctools.html">Minecraft Tools</a>
+                    <span class="tooltip">综合工具网站，提供指令生成、建筑设计、像素画制作等多种实用功能</span>
+                </div>
+                <div class="link-item">
+                    <a href="spritecraft.html">SpriteCraft</a>
+                    <span class="tooltip">专业的像素画生成工具，可将图片转换为Minecraft中的像素画，支持多种转换模式</span>
+                </div>
+                <div class="link-item">
+                    <a href="armortrims.html">Armor Trims</a>
+                    <span class="tooltip">盔甲纹饰预览工具，可以在线设计和预览不同材质和图案的组合效果</span>
+                </div>
+                <div class="link-item">
+                    <a href="mcsounds.html">McSounds</a>
+                    <span class="tooltip">Minecraft音效资源网站，收录游戏内所有音效，支持在线试听和下载</span>
+                </div>
+                <div class="link-item">
+                    <a href="novaskin.html">NovaSkin</a>
+                    <span class="tooltip">专业的在线皮肤编辑器，支持3D预览，提供丰富的编辑工具和模</span>
+                </div>
+                <div class="link-item">
+                    <a href="reden.html">Reden</a>
+                    <span class="tooltip">专业的Minecraft生电机器影文件生成工具，支持多个版本的生电机器生成</span>
+                </div>
+                <div class="link-item">
+                    <a href="wiki.html">Minecraft Wiki</a>
+                    <span class="tooltip">Minecraft官方维基百科，提供游戏内容的详细资料和教程，包括方块、物品、生物等全面信息</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2024 Minecraft 实用网站导航</p>
+            <p>本站仅供学习交流使用
+                <a href="https://space.bilibili.com/1652072635" target="_blank">
+                    <img src="data:image/svg+xml,%3Csvg t='1710400669739' class='icon' viewBox='0 0 1129 1024' version='1.1' xmlns='http://www.w3.org/2000/svg' p-id='4180'%3E%3Cpath d='M234.909 9.656a80.468 80.468 0 0 1 68.398 0 167.374 167.374 0 0 1 41.843 30.578l160.937 140.82h115.07l160.936-140.82a168.983 168.983 0 0 1 41.843-30.578A80.468 80.468 0 0 1 892.334 9.656a80.468 80.468 0 0 1 68.398 0 167.374 167.374 0 0 1 41.843 30.578c-9.656 16.093-20.922 30.577-33.797 43.452-12.875 12.874-27.359 24.14-43.452 33.796l-18.703 16.094a406.449 406.449 0 0 1 33.797 30.577A449.901 449.901 0 0 1 998.31 242.5a386.136 386.136 0 0 1 53.109 94.952c12.875 33.797 19.312 69.203 19.312 106.219v31.382c0 111.632-15.484 217.85-46.452 318.657a170.592 170.592 0 0 1-43.453 67.593 170.592 170.592 0 0 1-67.593 43.453c-100.806 30.968-207.025 46.452-318.657 46.452h-31.382c-111.632 0-217.85-15.484-318.657-46.452a170.592 170.592 0 0 1-67.593-43.453 170.592 170.592 0 0 1-43.453-67.593C82.893 693.095 67.41 586.877 67.41 475.245v-31.382c0-37.016 6.437-72.422 19.312-106.219a386.136 386.136 0 0 1 53.109-94.952 449.901 449.901 0 0 1 57.718-78.047 406.449 406.449 0 0 1 33.797-30.577L212.378 117.482c-16.094-9.656-30.578-20.922-43.452-33.796-12.875-12.875-24.141-27.36-33.797-43.452 12.875-12.875 27.359-24.14 43.452-33.797a80.468 80.468 0 0 1 56.328-3.19z' fill='%237f8c8d' p-id='4181'%3E%3C/path%3E%3C/svg%3E" class="social-icon" alt="bilibili">
+                </a>
+                <a href="javascript:void(0)" onclick="document.getElementById('douyinQR').style.display='flex'">
+                    <img src="data:image/svg+xml,%3Csvg t='1710401824971' class='icon' viewBox='0 0 1024 1024' version='1.1' xmlns='http://www.w3.org/2000/svg' p-id='4180'%3E%3Cpath d='M937.4 423.9c-84 0-165.7-27.3-232.9-77.8v352.3c0 179.9-138.6 325.6-309.6 325.6S85.3 878.3 85.3 698.4c0-179.9 138.6-325.6 309.6-325.6 17.1 0 33.7 1.5 49.9 4.3v186.6c-15.5-6.1-32-9.2-48.6-9.2-76.3 0-138.2 65-138.2 145.3 0 80.2 61.9 145.3 138.2 145.3 76.2 0 138.1-65.1 138.1-145.3V0H707c0 134.5 103.7 243.5 231.6 243.5v180.3l-1.2 0.1' fill='%237f8c8d' p-id='4181'%3E%3C/path%3E%3C/svg%3E" class="social-icon" alt="douyin">
+                </a>
+            </p>
+            <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                有待改进的地方欢迎到B站、抖音或QQ群（453325552）留言
+            </p>
+        </div>
+    </div>
+
+    <!-- 在 body 末尾添加弹出层 HTML -->
+    <div id="douyinQR" class="qr-popup" onclick="this.style.display='none'">
+        <div class="qr-content">
+            <span class="close-btn">&times;</span>
+            <h3>扫描二维码关注抖音</h3>
+            <img src="data:image/jpeg;base64,你的二维码图片base64编码" alt="抖音二维码">
+        </div>
+    </div>
+</body>
+</html> 
