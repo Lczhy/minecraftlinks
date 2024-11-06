@@ -12,7 +12,7 @@
 
 ## 访问地址
 
-https://<你的用户名>.github.io/minecraft-links
+https://Lczhy.github.io/minecraft-links
 
 ## 贡献
 
